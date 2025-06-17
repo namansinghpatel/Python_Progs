@@ -5,7 +5,7 @@ if num < 0:
     exit(0)
 if num % 10 == 2:
     print("your number has first digit as two")
-while (num > 0):
+while num > 0:
     if num < 0:
         print("you cannot enter a negetive number")
     if num % 10 == 2:

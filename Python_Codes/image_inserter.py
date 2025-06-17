@@ -9,7 +9,9 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Display Image in Pygame")
 
 # Load the image
-image = pygame.image.load(r"C:\Users\Naman Patel\Desktop\Python_Progs\zombie.png")  # Replace with your image file path
+image = pygame.image.load(
+    r"C:\Users\Naman Patel\Desktop\Python_Progs\zombie.png"
+)  # Replace with your image file path
 image_rect = image.get_rect(center=(WIDTH // 2, HEIGHT // 2))  # Center the image
 
 # Game loop
