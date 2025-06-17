@@ -65,7 +65,9 @@ planets = [
     Planet("Saturn", WHITE, 9, 240, 0.6),
     Planet("Uranus", DARK_BLUE, 8, 290, 0.4),
     Planet("Neptune", BROWN, 8, 340, 0.3),
-    Planet("Pluto", PINK, 4, 390, 0.2),
+    Planet ("pluto", Pink, 3, 370, 0.2)
+   
+    
 ]
 
 # Main loop
