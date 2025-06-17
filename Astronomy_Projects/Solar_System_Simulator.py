@@ -30,6 +30,7 @@ CENTER = (WIDTH // 2, HEIGHT // 2)
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 18)
 
+
 # Planet Class
 class Planet:
     def __init__(self, name, color, radius, distance, speed):
@@ -55,6 +56,7 @@ class Planet:
         label = font.render(self.name, True, WHITE)
         screen.blit(label, (self.x + 8, self.y - 8))
 
+
 # Create all planets including Pluto
 planets = [
     Planet("Mercury", GRAY, 4, 60, 2.5),
@@ -65,9 +67,7 @@ planets = [
     Planet("Saturn", WHITE, 9, 240, 0.6),
     Planet("Uranus", DARK_BLUE, 8, 290, 0.4),
     Planet("Neptune", BROWN, 8, 340, 0.3),
-    Planet ("pluto", Pink, 3, 370, 0.2)
-   
-    
+    Planet("Pluto", PINK, 3, 370, 0.2),
 ]
 
 # Main loop
@@ -96,4 +96,3 @@ while running:
 
 pygame.quit()
 sys.exit()
-
