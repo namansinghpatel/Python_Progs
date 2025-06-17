@@ -10,14 +10,14 @@ planet_distances = {
     "Jupiter": 5.20,
     "Saturn": 9.58,
     "Uranus": 19.2,
-    "Neptune": 30.1
+    "Neptune": 30.1,
 }
 
 try:
     while True:
         print("Orbital Period of Planets Around the Sun:\n")
         for planet, R in planet_distances.items():
-            T = math.sqrt(R ** 3)
+            T = math.sqrt(R**3)
             print(f"{planet}: {T:.2f} Earth years")
         print("\nPress Ctrl + C to exit or wait 20 seconds to see again...\n")
         time.sleep(20)

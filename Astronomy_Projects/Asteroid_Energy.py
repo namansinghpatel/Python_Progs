@@ -4,7 +4,7 @@ try:
         velocity = float(input("Enter velocity of the asteroid (in m/s, e.g. 25000): "))
 
         # Calculate energy using the formula E = 0.5 * m * v^2
-        energy = 0.5 * mass * velocity ** 2
+        energy = 0.5 * mass * velocity**2
 
         # Convert to megatons of TNT (optional)
         # 1 Megaton TNT = 4.184e15 Joules

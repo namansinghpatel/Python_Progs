@@ -10,7 +10,7 @@ planet_gravity = {
     "Saturn": 10.44,
     "Uranus": 8.69,
     "Neptune": 11.15,
-    "Pluto": 0.62
+    "Pluto": 0.62,
 }
 
 try:
@@ -23,6 +23,3 @@ try:
 
 except KeyboardInterrupt:
     print("\nGoodbye! Program terminated by user.")
-
-
-

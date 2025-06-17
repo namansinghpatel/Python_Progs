@@ -1,14 +1,14 @@
 import time
 
 LIGHT_YEAR_KM = 9.461e12
-KM_TO_METERS = 1000  
+KM_TO_METERS = 1000
 
 star_distances_ly = {
     "Alpha Centauri": 4.367,
     "Sirius": 8.6,
     "Betelgeuse": 642.5,
     "Vega": 25.0,
-    "Proxima Centauri": 4.24
+    "Proxima Centauri": 4.24,
 }
 
 try:
