@@ -34,6 +34,7 @@ walls = [
     pygame.Rect(150, 250, 200, 20),
 ]
 
+
 # Bullet class
 class Bullet:
     def __init__(self, x, y, dx, dy):
@@ -49,6 +50,7 @@ class Bullet:
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
+
 # Player class
 class Player:
     def __init__(self, x, y, image, controls):
@@ -63,16 +65,16 @@ class Player:
     def move(self, keys):
         old_position = self.rect.copy()
 
-        if keys[self.controls['up']] and self.rect.top > 0:
+        if keys[self.controls["up"]] and self.rect.top > 0:
             self.rect.y -= PLAYER_SPEED
-        if keys[self.controls['down']] and self.rect.bottom < HEIGHT:
+        if keys[self.controls["down"]] and self.rect.bottom < HEIGHT:
             self.rect.y += PLAYER_SPEED
-        if keys[self.controls['left']] and self.rect.left > 0:
+        if keys[self.controls["left"]] and self.rect.left > 0:
             self.rect.x -= PLAYER_SPEED
-            self.controls['facing'] = 'left'
-        if keys[self.controls['right']] and self.rect.right < WIDTH:
+            self.controls["facing"] = "left"
+        if keys[self.controls["right"]] and self.rect.right < WIDTH:
             self.rect.x += PLAYER_SPEED
-            self.controls['facing'] = 'right'
+            self.controls["facing"] = "right"
 
         # Wall collision
         for wall in walls:
@@ -81,12 +83,12 @@ class Player:
                 break
 
     def shoot(self):
-        dx = BULLET_SPEED if self.controls['facing'] == 'right' else -BULLET_SPEED
+        dx = BULLET_SPEED if self.controls["facing"] == "right" else -BULLET_SPEED
         bullet = Bullet(self.rect.centerx, self.rect.centery, dx, 0)
         self.bullets.append(bullet)
 
     def draw(self):
-        if self.controls['facing'] == 'left':
+        if self.controls["facing"] == "left":
             self.image = self.flipped_image
         else:
             self.image = self.original_image
@@ -114,14 +116,23 @@ class Player:
                 opponent.health -= 1
                 self.bullets.remove(bullet)
 
+
 # Controls
 p1_controls = {
-    'up': pygame.K_w, 'down': pygame.K_s, 'left': pygame.K_a,
-    'right': pygame.K_d, 'shoot': pygame.K_SPACE, 'facing': 'right'
+    "up": pygame.K_w,
+    "down": pygame.K_s,
+    "left": pygame.K_a,
+    "right": pygame.K_d,
+    "shoot": pygame.K_SPACE,
+    "facing": "right",
 }
 p2_controls = {
-    'up': pygame.K_UP, 'down': pygame.K_DOWN, 'left': pygame.K_LEFT,
-    'right': pygame.K_RIGHT, 'shoot': pygame.K_RETURN, 'facing': 'left'
+    "up": pygame.K_UP,
+    "down": pygame.K_DOWN,
+    "left": pygame.K_LEFT,
+    "right": pygame.K_RIGHT,
+    "shoot": pygame.K_RETURN,
+    "facing": "left",
 }
 
 player1 = Player(100, HEIGHT // 2, player1_img, p1_controls)
@@ -129,20 +140,25 @@ player2 = Player(WIDTH - 150, HEIGHT // 2, player2_img, p2_controls)
 
 font = pygame.font.SysFont(None, 36)
 
+
 def draw_health():
     h1 = font.render(f"P1 Health: {player1.health}", True, WHITE)
     h2 = font.render(f"P2 Health: {player2.health}", True, WHITE)
     screen.blit(h1, (10, 10))
     screen.blit(h2, (WIDTH - h2.get_width() - 10, 10))
 
+
 def game_over(winner):
     screen.fill(BLACK)
     msg = font.render(f"{winner} Wins!", True, WHITE)
-    screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT // 2 - msg.get_height() // 2))
+    screen.blit(
+        msg, (WIDTH // 2 - msg.get_width() // 2, HEIGHT // 2 - msg.get_height() // 2)
+    )
     pygame.display.flip()
     pygame.time.wait(3000)
     pygame.quit()
     sys.exit()
+
 
 # Main loop
 while True:
@@ -156,9 +172,9 @@ while True:
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            if event.key == player1.controls['shoot']:
+            if event.key == player1.controls["shoot"]:
                 player1.shoot()
-            if event.key == player2.controls['shoot']:
+            if event.key == player2.controls["shoot"]:
                 player2.shoot()
 
     # Update
@@ -182,7 +198,3 @@ while True:
         game_over("Player 1")
 
     pygame.display.flip()
-
-
-
-
