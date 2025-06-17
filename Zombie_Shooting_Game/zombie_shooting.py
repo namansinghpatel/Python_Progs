@@ -30,7 +30,9 @@ except:
     print("Error: gun_imagee.jpg not found")
     sys.exit()
 
-player_img_original = pygame.transform.scale(player_img_original, (player_size, player_size))
+player_img_original = pygame.transform.scale(
+    player_img_original, (player_size, player_size)
+)
 
 # Bullet settings
 bullet_width = 5
@@ -70,28 +72,36 @@ font = pygame.font.Font(None, 36)
 clock = pygame.time.Clock()
 running = True
 
+
 def draw_rotated_player():
     rotated_image = pygame.transform.rotate(player_img_original, gun_angle)
-    new_rect = rotated_image.get_rect(center=(player_x + player_size // 2, player_y + player_size // 2))
+    new_rect = rotated_image.get_rect(
+        center=(player_x + player_size // 2, player_y + player_size // 2)
+    )
     screen.blit(rotated_image, new_rect.topleft)
+
 
 def draw_bullets():
     for bullet in bullets:
-        pygame.draw.rect(screen, WHITE, (bullet["x"], bullet["y"], bullet_width, bullet_height))
+        pygame.draw.rect(
+            screen, WHITE, (bullet["x"], bullet["y"], bullet_width, bullet_height)
+        )
+
 
 def draw_zombies():
     for zombie in zombies:
         screen.blit(zombie_img, (zombie[0], zombie[1]))
+
 
 def handle_collisions():
     global score
     for bullet in bullets[:]:
         for zombie in zombies[:]:
             if (
-                bullet["x"] < zombie[0] + zombie_size and
-                bullet["x"] + bullet_width > zombie[0] and
-                bullet["y"] < zombie[1] + zombie_size and
-                bullet["y"] + bullet_height > zombie[1]
+                bullet["x"] < zombie[0] + zombie_size
+                and bullet["x"] + bullet_width > zombie[0]
+                and bullet["y"] < zombie[1] + zombie_size
+                and bullet["y"] + bullet_height > zombie[1]
             ):
                 if bullet in bullets:
                     bullets.remove(bullet)
@@ -100,9 +110,11 @@ def handle_collisions():
                 blast_sound.play()
                 score += 1
 
+
 def draw_score():
     score_text = font.render(f"Score: {score}", True, WHITE)
     screen.blit(score_text, (10, 10))
+
 
 # Main game loop
 while running:
@@ -131,7 +143,7 @@ while running:
             "x": player_x + player_size // 2,
             "y": player_y + player_size // 2,
             "vx": vx,
-            "vy": vy
+            "vy": vy,
         }
         bullets.append(bullet)
         shoot_sound.play()
@@ -178,4 +190,3 @@ while running:
 
 pygame.quit()
 sys.exit()
-
