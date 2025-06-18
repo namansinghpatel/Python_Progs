@@ -6,8 +6,9 @@ import sys
 pygame.init()
 
 # Screen settings
-WIDTH, HEIGHT = 1000, 1000
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+info = pygame.display.Info()
+WIDTH, HEIGHT = info.current_w, info.current_h
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Solar System Simulator")
 
 # Colors
@@ -66,7 +67,6 @@ class Planet:
         screen.blit(label, (self.x + 8, self.y - 8))
 
 
-
 # Create all planets including Pluto
 planets = [
     Planet("Mercury", GRAY, 4, 60, 2.5),
@@ -96,13 +96,17 @@ while running:
     # Draw planets
     for planet in planets:
         planet.draw()
-  
+
     pygame.display.flip()
 
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+
 
 pygame.quit()
 sys.exit()
