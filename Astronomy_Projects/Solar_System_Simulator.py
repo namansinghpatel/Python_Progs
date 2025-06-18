@@ -5,11 +5,16 @@ import sys
 # Initialize Pygame
 pygame.init()
 
+is_paused = False  # Global variable to control pause/play state
+
 # Screen settings
 info = pygame.display.Info()
 WIDTH, HEIGHT = info.current_w, info.current_h
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Solar System Simulator")
+
+# Button settings
+button_rect = pygame.Rect(WIDTH - 160, 20, 120, 40)  # x, y, width, height
 
 # Colors
 BLACK = (0, 0, 0)
@@ -41,8 +46,8 @@ class Planet:
         self.distance = distance
         self.angle = 0
         self.speed = speed
-        self.x = 0
-        self.y = 0
+        self.x = 0  # Initial x position
+        self.y = 0  # Initial y position
         self.revolutions = 0
         self.last_angle = 0
 
@@ -60,9 +65,12 @@ class Planet:
     def draw_orbit(self):
         pygame.draw.circle(screen, (50, 50, 50), CENTER, self.distance, 1)
 
-    def draw(self):
-        self.update_position()
+    def draw(self, paused=False):
+        if not paused:
+            self.update_position()
+        # Draw the planet at current position
         pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
+        # Draw the label with revolution count
         label = font.render(f"{self.name} ({self.revolutions})", True, WHITE)
         screen.blit(label, (self.x + 8, self.y - 8))
 
@@ -92,10 +100,13 @@ while running:
     # Draw orbits
     for planet in planets:
         planet.draw_orbit()
+        planet.draw(paused=is_paused)
 
-    # Draw planets
-    for planet in planets:
-        planet.draw()
+    # Draw Pause/Play button
+    pygame.draw.rect(screen, (80, 80, 80), button_rect, border_radius=10)
+    button_label = "Pause" if not is_paused else "Play"
+    text = font.render(button_label, True, WHITE)
+    screen.blit(text, (button_rect.x + 25, button_rect.y + 10))
 
     pygame.display.flip()
 
@@ -106,6 +117,9 @@ while running:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if button_rect.collidepoint(event.pos):
+                is_paused = not is_paused
 
 
 pygame.quit()
