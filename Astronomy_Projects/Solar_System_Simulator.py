@@ -39,10 +39,19 @@ class Planet:
         self.radius = radius
         self.distance = distance
         self.angle = 0
-        self.speed = speed  # degrees per frame
+        self.speed = speed
+        self.x = 0
+        self.y = 0
+        self.revolutions = 0
+        self.last_angle = 0
 
     def update_position(self):
         self.angle = (self.angle + self.speed) % 360
+        # Detect full orbit
+        if self.last_angle > 350 and self.angle < 10:
+            self.revolutions += 1
+        self.last_angle = self.angle
+
         rad = math.radians(self.angle)
         self.x = CENTER[0] + self.distance * math.cos(rad)
         self.y = CENTER[1] + self.distance * math.sin(rad)
@@ -53,8 +62,9 @@ class Planet:
     def draw(self):
         self.update_position()
         pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.radius)
-        label = font.render(self.name, True, WHITE)
+        label = font.render(f"{self.name} ({self.revolutions})", True, WHITE)
         screen.blit(label, (self.x + 8, self.y - 8))
+
 
 
 # Create all planets including Pluto
@@ -86,7 +96,7 @@ while running:
     # Draw planets
     for planet in planets:
         planet.draw()
-
+  
     pygame.display.flip()
 
     # Event handling
