@@ -1,6 +1,8 @@
 import pygame
 import math
 import sys
+import random
+
 
 # Initialize Pygame
 pygame.init()
@@ -44,6 +46,7 @@ slider_bar_height = 200
 slider_bar_rect = pygame.Rect(WIDTH - 80, 100, 8, slider_bar_height)
 slider_knob_rect = pygame.Rect(WIDTH - 88, 100 + slider_bar_height // 2 - 8, 24, 16)
 
+
 # Planet Class
 class Planet:
     def __init__(self, name, color, radius, distance, speed):
@@ -80,6 +83,7 @@ class Planet:
         label = font.render(f"{self.name} ({self.revolutions})", True, WHITE)
         screen.blit(label, (self.x + 8, self.y - 8))
 
+
 # Create Planets
 planets = [
     Planet("Mercury", GRAY, 4, 60, 2.5),
@@ -93,11 +97,19 @@ planets = [
     Planet("Pluto", PINK, 3, 370, 0.2),
 ]
 
+# Generate random star positions
+stars = [(random.randint(0, WIDTH), random.randint(0, HEIGHT)) for _ in range(200)]
+
+
 # Main loop
 running = True
 while running:
     clock.tick(60)
     screen.fill(BLACK)
+
+    for star in stars:
+        brightness = random.randint(100, 255)
+        pygame.draw.circle(screen, (brightness, brightness, brightness), star, 1)
 
     # Draw Sun
     pygame.draw.circle(screen, YELLOW, CENTER, 25)
@@ -142,13 +154,21 @@ while running:
             dragging_slider = False
 
         elif event.type == pygame.MOUSEMOTION and dragging_slider:
-            new_y = max(slider_bar_rect.y, min(event.pos[1], slider_bar_rect.y + slider_bar_height - slider_knob_rect.height))
+            new_y = max(
+                slider_bar_rect.y,
+                min(
+                    event.pos[1],
+                    slider_bar_rect.y + slider_bar_height - slider_knob_rect.height,
+                ),
+            )
             slider_knob_rect.y = new_y
 
             # Convert knob y-position to speed (0.1x to 5x)
             relative_pos = slider_knob_rect.y - slider_bar_rect.y
             slider_range = slider_bar_height - slider_knob_rect.height
-            simulation_speed = round(5.0 - (relative_pos / slider_range) * (5.0 - 0.1), 1)
+            simulation_speed = round(
+                5.0 - (relative_pos / slider_range) * (5.0 - 0.1), 1
+            )
 
 pygame.quit()
 sys.exit()
