@@ -98,8 +98,12 @@ planets = [
 ]
 
 # Generate random star positions
-stars = [(random.randint(0, WIDTH), random.randint(0, HEIGHT)) for _ in range(200)]
-
+stars = [(random.randint(0, WIDTH), random.randint(0, HEIGHT)) for _ in range(500)]
+star_colors = [
+    (255, 255, 255),
+    (144, 238, 144),
+    (255, 100, 100),
+]  # white, Light Green, Soft Red
 
 # Main loop
 running = True
@@ -108,8 +112,10 @@ while running:
     screen.fill(BLACK)
 
     for star in stars:
-        brightness = random.randint(100, 255)
-        pygame.draw.circle(screen, (brightness, brightness, brightness), star, 1)
+        base_color = random.choice(star_colors)
+        brightness = random.uniform(0.4, 1.0)
+        color = tuple(min(255, int(c * brightness)) for c in base_color)
+        pygame.draw.circle(screen, color, star, 1)
 
     # Draw Sun
     pygame.draw.circle(screen, YELLOW, CENTER, 25)
