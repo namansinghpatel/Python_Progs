@@ -1,5 +1,8 @@
 import pygame
 import sys
+import random
+import time
+
 
 # Setup
 pygame.init()
@@ -13,14 +16,14 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Player settings
-PLAYER_SIZE = 70
+PLAYER_SIZE = 30
 PLAYER_SPEED = 5
 BULLET_SPEED = 10
 MAX_HEALTH = 5
 
 # Load images
 bullet_img = pygame.image.load("bullet.jpg").convert_alpha()
-bullet_img = pygame.transform.scale(bullet_img, (35, 15))
+bullet_img = pygame.transform.scale(bullet_img, (20, 10))
 
 player1_img = pygame.image.load("player1.jpeg").convert_alpha()
 player1_img = pygame.transform.scale(player1_img, (PLAYER_SIZE, PLAYER_SIZE))
@@ -30,9 +33,24 @@ player2_img = pygame.transform.scale(player2_img, (PLAYER_SIZE, PLAYER_SIZE))
 
 # Define walls
 walls = [
-    pygame.Rect(300, 100, 20, 400),
-    pygame.Rect(150, 250, 200, 20),
+    pygame.Rect(300, 100, 20, 400),  # Vertical wall
+    pygame.Rect(150, 250, 200, 20),  # Horizontal wall
+    pygame.Rect(500, 50, 20, 200),  # Maze vertical top
+    pygame.Rect(400, 250, 200, 20),  # Maze horizontal middle
+    pygame.Rect(600, 250, 20, 300),  # Right vertical wall
+    pygame.Rect(100, 500, 250, 20),  # Bottom horizontal
+    pygame.Rect(100, 100, 20, 150),  # Top left wall
+    pygame.Rect(250, 400, 150, 20),  # Center bottom wall
+    pygame.Rect(450, 350, 100, 20),  # Mid right wall
 ]
+
+SHIELD_SIZE = 40
+shield_active = False
+shield_rect = pygame.Rect(0, 0, SHIELD_SIZE, SHIELD_SIZE)
+shield_spawn_time = pygame.time.get_ticks()
+shield_spawn_delay = 30000  # 30 seconds
+shield_duration = 10000  # 10 seconds
+shield_color = (0, 255, 255)
 
 
 # Bullet class
@@ -61,6 +79,8 @@ class Player:
         self.bullets = []
         self.controls = controls
         self.health = MAX_HEALTH
+        self.shielded = False
+        self.shield_start_time = 0
 
     def move(self, keys):
         old_position = self.rect.copy()
@@ -113,7 +133,8 @@ class Player:
 
             # Hit opponent
             if bullet.rect.colliderect(opponent.rect):
-                opponent.health -= 1
+                if not opponent.shielded:
+                    opponent.health -= 1
                 self.bullets.remove(bullet)
 
 
@@ -166,6 +187,14 @@ while True:
     screen.fill(BLACK)
     keys = pygame.key.get_pressed()
 
+    current_time = pygame.time.get_ticks()
+    if not shield_active and current_time - shield_spawn_time >= shield_spawn_delay:
+        shield_rect.topleft = (
+            random.randint(50, WIDTH - SHIELD_SIZE - 50),
+            random.randint(50, HEIGHT - SHIELD_SIZE - 50),
+        )
+        shield_active = True
+
     # Event handling
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -183,12 +212,30 @@ while True:
     player1.update_bullets(player2)
     player2.update_bullets(player1)
 
+    # Check if player picks up shield
+    for player in [player1, player2]:
+        if shield_active and player.rect.colliderect(shield_rect):
+            player.shielded = True
+            player.shield_start_time = current_time
+            shield_active = False
+            shield_spawn_time = current_time
+
+    for player in [player1, player2]:
+        if (
+            player.shielded
+            and current_time - player.shield_start_time >= shield_duration
+        ):
+            player.shielded = False
+
     # Draw
     for wall in walls:
         pygame.draw.rect(screen, (100, 100, 100), wall)
 
     player1.draw()
     player2.draw()
+    if shield_active:
+        pygame.draw.rect(screen, shield_color, shield_rect)
+
     draw_health()
 
     # Win condition
