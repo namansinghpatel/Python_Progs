@@ -1,29 +1,9 @@
 import pygame
 import math
 
-# ==== DEFAULT VALUES ====
-DEFAULTS = {
-    "thrust": 3000,                 # N
-    "mass": 500,                    # kg
-    "burn_time": 5,                  # s
-    "landing_burn_time": 4,          # s
-    "landing_trigger_height": 50,    # m
-    "launch_angle": 85               # degrees
-}
-
-# ==== GET USER VALUES ====
-def get_user_inputs():
-    thrust = float(input(f"Enter launch thrust (N) [{DEFAULTS['thrust']}]: ") or DEFAULTS['thrust'])
-    mass = float(input(f"Enter rocket mass (kg) [{DEFAULTS['mass']}]: ") or DEFAULTS['mass'])
-    burn_time = float(input(f"Enter ascent burn time (seconds) [{DEFAULTS['burn_time']}]: ") or DEFAULTS['burn_time'])
-    landing_burn_time = float(input(f"Enter landing burn duration (seconds) [{DEFAULTS['landing_burn_time']}]: ") or DEFAULTS['landing_burn_time'])
-    landing_trigger_height = float(input(f"Enter landing trigger height (m) [{DEFAULTS['landing_trigger_height']}]: ") or DEFAULTS['landing_trigger_height'])
-    return thrust, mass, burn_time, landing_burn_time, landing_trigger_height
-
-# ==== CONSTANTS ====
-WIDTH, HEIGHT = 800, 600
+# --- Window & colors ---
+WIDTH, HEIGHT = 900, 620
 WHITE = (255, 255, 255)
-GRAY = (150, 150, 150)
 BLACK = (0, 0, 0)
 RED   = (255, 80, 80)
 GREEN = (120, 220, 120)
@@ -35,38 +15,35 @@ GRAVITY = 9.81     # m/s^2 downward
 SCALE   = 2.0      # pixels per meter
 
 # === Ask player for rocket parameters before launch ===
-mass = float(input("Enter rocket mass (kg): "))
-max_thrust = float(input("Enter maximum thrust (N): "))
-burn_time_ascent = float(input("Enter ascent burn time (seconds): "))
-burn_time_landing = float(input("Enter landing burn time (seconds): "))
-flare_alt = float(input("Enter landing trigger altitude (m): "))
+mass = float(input("Enter rocket mass (kg) [400]: ") or 400)
+max_thrust = float(input("Enter maximum thrust (N) [20000]: ") or 20000)
+burn_time_ascent = float(input("Enter ascent burn time (seconds) [3]: ") or 3)
+burn_time_landing = float(input("Enter landing burn time (seconds) [20]: ") or 20)
+flare_alt = float(input("Enter landing trigger altitude (m) [310]: ") or 310)
+
+print(f"[DEBUG] Parameters set: mass={mass}, max_thrust={max_thrust}, "
+      f"burn_time_ascent={burn_time_ascent}, burn_time_landing={burn_time_landing}, flare_alt={flare_alt}")
 
 launch_angle_deg = 88  # stays constant
 
 # Controls for landing autopilot
 K_vy   = 0.35  # vertical damping
 K_vx   = 0.15  # horizontal damping
-soft_land_vy = 2.0   # m/s vertical speed threshold for "soft"
-soft_land_vx = 2.0   # m/s horizontal threshold for "soft"
+soft_land_vy = 5   # m/s
+soft_land_vx = 5   # m/s
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Rocket Trajectory - Custom Launch")
+pygame.display.set_caption("Auto-Lander: Retro-Thrust Smooth Landing (85°)")
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, 28)
 
-# Initial state (ground at y=0)
-x = 120.0   # m
-y = 0.0     # m altitude
-vx = 0.0
-vy = 0.0
-
-# Fuel "seconds" pool (simple model proportional to throttle usage)
+# Initial state
+x, y = 120.0, 0.0
+vx, vy = 0.0, 0.0
 fuel_ascent  = burn_time_ascent
 fuel_landing = burn_time_landing
-
 angle = math.radians(launch_angle_deg)
-
 path = []
 running = True
 landed = False
@@ -74,30 +51,25 @@ crashed = False
 status_msg = "ASCENT"
 
 def thrust_available():
-    return (fuel_ascent > 0.0) or (fuel_landing > 0.0)
+    available = (fuel_ascent > 0.0) or (fuel_landing > 0.0)
+    print(f"[DEBUG] Thrust available: {available}")
+    return available
 
 def apply_thrust(ax_req, ay_req, dt, use_landing=False):
-    """
-    Apply thrust to approximate requested accelerations (limited by engine).
-    Consumes fuel bucket (ascent or landing) proportionally to throttle.
-    Returns actual ax, ay applied.
-    """
     global fuel_ascent, fuel_landing
 
-    # Required total acceleration due to engine (vector magnitude)
-    a_req_mag = math.sqrt(ax_req*ax_req + ay_req*ay_req)
+    print(f"[DEBUG] Requested thrust: ax_req={ax_req:.3f}, ay_req={ay_req:.3f}, dt={dt:.3f}, use_landing={use_landing}")
+    a_req_mag = math.sqrt(ax_req**2 + ay_req**2)
     a_max = max_thrust / mass
 
     if a_req_mag <= 1e-6 or not thrust_available():
         return 0.0, 0.0
 
-    # Cap to engine capability
     scale = min(1.0, a_max / a_req_mag)
-    ax = ax_req * scale
-    ay = ay_req * scale
+    ax, ay = ax_req * scale, ay_req * scale
+    print(f"[DEBUG] Applied thrust: ax={ax:.3f}, ay={ay:.3f}, scale={scale:.3f}")
 
-    # Consume fuel seconds by throttle usage (scale ~ throttle)
-    use = dt * abs(scale)  # proportional to throttle
+    use = dt * abs(scale)
     if use_landing:
         take = min(use, fuel_landing)
         fuel_landing -= take
@@ -109,24 +81,25 @@ def apply_thrust(ax_req, ay_req, dt, use_landing=False):
         if take < use and fuel_landing > 0.0:
             fuel_landing = max(0.0, fuel_landing - (use - take))
 
+    print(f"[DEBUG] Fuel after thrust: ascent={fuel_ascent:.2f}, landing={fuel_landing:.2f}")
     return ax, ay
 
 while running:
-    dt = clock.tick(60) / 1000.0  # seconds/frame
+    dt = clock.tick(60) / 1000.0
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
     if not (landed or crashed):
-        ax = 0.0
-        ay = -GRAVITY
+        ax, ay = 0.0, -GRAVITY
 
         if fuel_ascent > 0.0:
             status_msg = "ASCENT"
-            a_engine = (max_thrust / mass)
+            a_engine = max_thrust / mass
             ax_req = a_engine * math.cos(angle)
             ay_req = a_engine * math.sin(angle)
+            print(f"[DEBUG] ASCENT phase: ax_req={ax_req:.3f}, ay_req={ay_req:.3f}")
             thx, thy = apply_thrust(ax_req, ay_req, dt, use_landing=False)
             ax += thx
             ay += thy
@@ -136,6 +109,7 @@ while running:
                 status_msg = "AUTO-LAND"
                 ay_req = (K_vy * abs(vy)) + GRAVITY
                 ax_req = -K_vx * vx
+                print(f"[DEBUG] AUTO-LAND phase: ax_req={ax_req:.3f}, ay_req={ay_req:.3f}")
                 thx, thy = apply_thrust(ax_req, ay_req, dt, use_landing=True)
                 ax += thx
                 ay += thy
@@ -146,24 +120,25 @@ while running:
         vy += ay * dt
         x  += vx * dt
         y  += vy * dt
+        print(f"[DEBUG] Position updated: x={x:.2f}, y={y:.2f}, vx={vx:.2f}, vy={vy:.2f}")
 
         if y <= 0.0:
             y = 0.0
             if abs(vy) <= soft_land_vy and abs(vx) <= soft_land_vx:
                 landed = True
                 status_msg = "LANDED (soft)"
+                print("[DEBUG] LANDING SUCCESSFUL: Soft landing achieved")
             else:
                 crashed = True
                 status_msg = "CRASHED"
+                print("[DEBUG] CRASH DETECTED: Impact velocity too high")
             vx = vy = 0.0
 
-        path.append((int(pos_x * SCALE), HEIGHT - int(pos_y * SCALE)))
+        path.append((int(x * SCALE), HEIGHT - int(y * SCALE)))
 
     # --- Draw ---
     screen.fill(BLACK)
-
     pygame.draw.line(screen, GRAY, (0, HEIGHT), (WIDTH, HEIGHT), 2)
-
     for p in path[-2000:]:
         if 0 <= p[0] < WIDTH and 0 <= p[1] < HEIGHT:
             pygame.draw.circle(screen, WHITE, p, 1)
@@ -192,12 +167,6 @@ while running:
     elif landed:
         screen.blit(font.render("LANDED SOFT – nice!", True, GREEN), (10, 170))
 
-        pygame.display.flip()
+    pygame.display.flip()
 
 pygame.quit()
-
-# ==== START ====
-params = menu_screen()
-run_game(*params, DEFAULTS['launch_angle'])
-
-
