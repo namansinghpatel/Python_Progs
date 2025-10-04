@@ -6,7 +6,7 @@ from backtesting import Backtest, Strategy
 # Load your data
 # ------------------------
 data = pd.read_csv(
-    r"C:\Users\Naman Patel\Desktop\Backtest\SOLUSDT_1min.csv",
+    "SOLUSDT_1min.csv",
     header=None,
     names=["Date", "Open", "High", "Low", "Close", "Volume"]
 )
