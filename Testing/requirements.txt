@@ -1,0 +1,7 @@
+matplotlib
+mplfinance
+numpy
+pandas
+python-dateutil
+pytz
+six
