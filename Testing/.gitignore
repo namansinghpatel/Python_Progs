@@ -1,0 +1,21 @@
+# ===============================
+# Python Project Git Ignore File
+# ===============================
+
+# 🧠 Ignore Python virtual environment
+venv/
+
+# 🗂️ Ignore all generated CSV files inside the data folder
+data/engulfing_with_confirmation.csv
+
+# 🔧 Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+
+# 💻 Ignore IDE or editor-specific files
+.vscode/
+.idea/
+
+# 🧪 Optional: Ignore Jupyter or Streamlit artifacts (if any)
+*.ipynb_checkpoints
+*.log
