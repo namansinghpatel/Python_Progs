@@ -6,3 +6,4 @@ pytz
 six
 requests
 mplfinance
+yfinance
