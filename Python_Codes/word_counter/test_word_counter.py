@@ -1,6 +1,6 @@
 # Run the program as pytest -sv .\test_word_counter.py
 
-from word_counter import count_words
+from Python_Codes.word_counter.word_counter import count_words
 
 def test_basic():
     assert count_words("hello world") == 2
