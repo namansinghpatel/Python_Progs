@@ -1,10 +1,10 @@
 email = input("Enter email: ")
 
-if (ch.isupper() for ch in email):
-    print("Invalid Email")
-elif " " in email :
-    print("Email is InValid ")
-elif "@" and  "."  in email :
-    print("Valid email ")
-else :
-    print("Email is Invalid")
+if any(ch.isupper() for ch in email):
+    print(f"Invalid Email: uppercase not allowed")
+elif " " in email:
+    print("Invalid Email: space not allowed")
+elif "@" in email and "." in email:
+    print("Valid email address")
+else:
+    print("Invalid Email: missing @ or .")
