@@ -19,3 +19,6 @@ __pycache__/
 # 🧪 Optional: Ignore Jupyter or Streamlit artifacts (if any)
 *.ipynb_checkpoints
 *.log
+
+# 📁 Ignore any other files or folders you don't want to track
+trade_log.csv

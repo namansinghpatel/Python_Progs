@@ -7,3 +7,4 @@ six
 requests
 mplfinance
 yfinance
+MetaTrader5
