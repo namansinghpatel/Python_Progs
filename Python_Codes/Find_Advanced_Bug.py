@@ -277,8 +277,38 @@ def encryption_lab():
         else:
             print("Invalid choice")
 
-#========================================================================================================
+#==============================================string_compression()========================================================
+
+def string_compression():
+
+    import time
+
+    print("===== String Compression ====")
+
+    s = "aaabbc"
+    result = ""
+    count = 1
+
+    print(f"compressing string {s}.......")
+    time.sleep(3)
+
+    for i in range(len(s) - 1):
+        if s[i] == s[i+1]:
+            count += 1
+        else:
+            result += s[i] + str(count)
+            count = 1
+
+    # ✅ handle last group
+    result += s[-1] + str(count)
+
+    print("compressed =", result)
+
+#=========================================================================================================================
+
+
 
 if __name__ == "__main__":
     #login_system()
-    encryption_lab()
+    #encryption_lab()
+    string_compression()
