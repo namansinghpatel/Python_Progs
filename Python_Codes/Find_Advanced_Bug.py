@@ -304,6 +304,25 @@ def string_compression():
 
     print("compressed =", result)
 
+#============================================frequency_count============================================================
+def frequency_count():
+
+    import time 
+
+    print("===== Frequency Count =====")
+    nums = [1,2,2,3,3,3]
+    freq = {}
+    print("counting frequency of", nums)
+    time.sleep(2)
+
+    for n in nums:
+        if n in freq:
+            freq[n] += 1
+        else:
+            freq[n] = 1
+
+    print(freq)
+
 #=========================================================================================================================
 
 
@@ -311,4 +330,6 @@ def string_compression():
 if __name__ == "__main__":
     #login_system()
     #encryption_lab()
-    string_compression()
+    #string_compression()
+    frequency_count()
+    
