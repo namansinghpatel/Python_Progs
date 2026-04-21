@@ -321,15 +321,167 @@ def frequency_count():
         else:
             freq[n] = 1
 
-    print(freq)
+    print(freq) 
+
+#================================================find_max_profit==============================================================
+import random
+
+def find_max_profit():
+
+    print("===== Find Max Profit =====")
+
+    prices = [random.randint(1, 20) for _ in range(6)]
+    print("Stock prices =", prices)
+
+    min_price = prices[0]
+    best_buy = prices[0]
+    best_sell = prices[0]
+    max_profit = 0
+
+    for p in prices[1:]:
+
+        # check profit if sold today
+        if p - min_price > max_profit:
+            max_profit = p - min_price
+            best_buy = min_price
+            best_sell = p
+
+        # update minimum price seen so far
+        if p < min_price:
+            min_price = p
+
+    print(f"Buy at {best_buy}, Sell at {best_sell}, Profit = {max_profit}")
+
+#============================================nested_list_reference=======================================================
+def nested_list_reference():
+    def print_grid_table(title, g):
+        print("\n" + "=" * 95)
+        print(title)
+        print("=" * 95)
+
+        # Header
+        print(f"{'Row':<8}{'Row Address':<18}{'Col0':<22}{'Col1':<22}{'Col2':<22}")
+        print("-" * 95)
+
+        for r in range(len(g)):
+            row_addr = id(g[r])
+
+            c0 = f"{g[r][0]} / {id(g[r][0])}"
+            c1 = f"{g[r][1]} / {id(g[r][1])}"
+            c2 = f"{g[r][2]} / {id(g[r][2])}"
+
+            print(f"{r:<8}{row_addr:<18}{c0:<22}{c1:<22}{c2:<22}")
+
+
+    # Wrong Grid (shared rows)
+    ngrid = [[0]*3]*3
+
+    # Correct Grid (independent rows)
+    grid = [[0]*3 for _ in range(3)]
+
+    print_grid_table("Wrong Grid (Shared Rows)", ngrid)
+    print_grid_table("Correct Grid (Independent Rows)", grid)
+
+
+    # Modify one value to visualize difference
+    ngrid[0][0] = 1
+    grid[0][0] = 1
+
+    print("\nAFTER CHANGING [0][0] = 1")
+
+    print_grid_table("Wrong Grid After Change", ngrid)
+    print_grid_table("Correct Grid After Change", grid)
+
+#====================================================array_memory_mapping====================================================
+
+def array_memory_mapping():
+    import numpy as np
+
+
+    # ==================================================
+    # 1D ARRAY
+    # ==================================================
+    arr = np.array([10, 20, 30, 40, 50], dtype=np.int64)
+
+    print("=" * 90)
+    print("NumPy 1D Array")
+    print("=" * 90)
+
+    print(arr)
+    print()
+
+    base_addr = arr.ctypes.data
+
+    print("Base Address :", base_addr)
+    print("Shape        :", arr.shape)
+    print("Data Type    :", arr.dtype)
+    print("Item Size    :", arr.itemsize, "bytes")
+    print("Strides      :", arr.strides)
+    print()
+
+    print("=" * 90)
+    print(f"{'Index':<10}{'Value':<10}{'Cell Address':<20}{'Offset(Bytes)':<15}")
+    print("=" * 90)
+
+    for i in range(len(arr)):
+        cell_addr = base_addr + i * arr.strides[0]
+        offset = cell_addr - base_addr
+
+        print(f"{i:<10}{arr[i]:<10}{cell_addr:<20}{offset:<15}")
+
+    print("=" * 90)
+
+
+    # ==================================================
+    # 2D ARRAY
+    # ==================================================
+    grid = np.array([
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]
+    ], dtype=np.int64)
+
+    print("\n" + "=" * 90)
+    print("NumPy 2D Grid")
+    print("=" * 90)
+
+    print(grid)
+    print()
+
+    base_addr = grid.ctypes.data
+
+    print("Base Address :", base_addr)
+    print("Shape        :", grid.shape)
+    print("Data Type    :", grid.dtype)
+    print("Item Size    :", grid.itemsize, "bytes")
+    print("Strides      :", grid.strides)
+    print()
+
+    print("=" * 90)
+    print(f"{'Row':<8}{'Col':<8}{'Value':<10}{'Cell Address':<20}{'Offset(Bytes)':<15}")
+    print("=" * 90)
+
+    rows, cols = grid.shape
+
+    for r in range(rows):
+        for c in range(cols):
+
+            cell_addr = base_addr + r * grid.strides[0] + c * grid.strides[1]
+            offset = cell_addr - base_addr
+
+            print(f"{r:<8}{c:<8}{grid[r][c]:<10}{cell_addr:<20}{offset:<15}")
+
+    print("=" * 90)
 
 #=========================================================================================================================
-
 
 
 if __name__ == "__main__":
     #login_system()
     #encryption_lab()
     #string_compression()
-    frequency_count()
+    #frequency_count()
+    #find_max_profit()
+    #nested_list_reference()
+    array_memory_mapping()
     
