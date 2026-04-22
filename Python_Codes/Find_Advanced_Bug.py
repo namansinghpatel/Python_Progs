@@ -473,15 +473,82 @@ def array_memory_mapping():
 
     print("=" * 90)
 
+#====================================================merge_intervals======================================================
+
+import random
+
+def merge_intervals():
+
+    # Static intervals (uncomment to test specific cases)
+    # intervals = [[8, 16], [5, 19]]
+    
+    # Dynamic random intervals
+    # Generate random number of intervals (2 to 5)
+    count = random.randint(2, 5)
+
+    intervals = []
+
+    # Create random intervals
+    for _ in range(count):
+        start = random.randint(1, 15)
+        end = random.randint(start, 20)   # end always >= start
+        intervals.append([start, end])
+
+    # Alternative one-liner for random intervals
+    # intervals = [[random.randint(1, 10), random.randint(11, 20)] for _ in range(6)]
+
+    print("Generated random intervals :", intervals)
+    intervals.sort()
+    print("intervals after sorting    :", intervals)
+    print("Merging intervals.......")
+
+    result = [intervals[0]]
+
+    for start, end in intervals[1:]:
+        last = result[-1]
+
+        if start <= last[1]:
+            last[1] = end
+        else:
+            result.append([start, end])
+
+    print("Merged intervals:", result)
+
+#=====================================================sliding_window_sum==================================================
+
+def sliding_window_sum():
+
+    import random
+
+    count = random.randint(5, 15)
+    print(f"Generating random array of {count} elements...")
+    arr = []
+
+
+    for _ in range(count):
+        arr.append(random.randint(1,10))
+    print(f"arr = {arr}")
+    k = 3
+
+    print(f"{'Window':<10}{'Values':<20}{'Sum':<10}")
+    print("-"*40)
+
+    for i in range(len(arr)-k + 1):
+        window = arr[i:i+k]
+        print(f"{i+1:<10}{str(window):<20}{sum(window):<10}")
+
 #=========================================================================================================================
 
 
 if __name__ == "__main__":
-    #login_system()
-    #encryption_lab()
-    #string_compression()
-    #frequency_count()
-    #find_max_profit()
-    #nested_list_reference()
-    array_memory_mapping()
+    # login_system()
+    # encryption_lab()
+    # string_compression()
+    # frequency_count()
+    # find_max_profit()
+    # nested_list_reference()
+    # array_memory_mapping()
+    # merge_intervals()
+    # sliding_window_sum()
+    pass
     
