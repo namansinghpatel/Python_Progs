@@ -1,4 +1,4 @@
-#=========================================login_system()===============================================================
+# =========================================login_system()===============================================================
 from getpass import getpass
 import base64
 
@@ -22,7 +22,7 @@ def login_system_manual():
 
     while attempts < 3:
         user = input("User: ")
-        pwd = getpass("Pass: ")   # 🔥 hides password
+        pwd = getpass("Pass: ")  # 🔥 hides password
 
         if user == USERNAME and pwd == decrypt(ENCRYPTED_PASSWORD):
             print("Login success")
@@ -97,10 +97,12 @@ def login_system():
         else:
             print("Invalid choice")
 
-#=========================================encryption_lab()===============================================================
+
+# =========================================encryption_lab()===============================================================
 import hashlib
-    
+
 DEBUG = True
+
 
 def log(msg):
     if DEBUG:
@@ -156,6 +158,7 @@ def verify_password(input_pwd, stored_hash):
 # =========================
 # 🧪 TEST CASES
 # =========================
+
 
 def test_caesar():
     print("\n[TEST] Caesar Cipher")
@@ -277,7 +280,9 @@ def encryption_lab():
         else:
             print("Invalid choice")
 
-#==============================================string_compression()========================================================
+
+# ==============================================string_compression()========================================================
+
 
 def string_compression():
 
@@ -293,7 +298,7 @@ def string_compression():
     time.sleep(3)
 
     for i in range(len(s) - 1):
-        if s[i] == s[i+1]:
+        if s[i] == s[i + 1]:
             count += 1
         else:
             result += s[i] + str(count)
@@ -304,13 +309,14 @@ def string_compression():
 
     print("compressed =", result)
 
-#============================================frequency_count============================================================
+
+# ============================================frequency_count============================================================
 def frequency_count():
 
-    import time 
+    import time
 
     print("===== Frequency Count =====")
-    nums = [1,2,2,3,3,3]
+    nums = [1, 2, 2, 3, 3, 3]
     freq = {}
     print("counting frequency of", nums)
     time.sleep(2)
@@ -321,10 +327,12 @@ def frequency_count():
         else:
             freq[n] = 1
 
-    print(freq) 
+    print(freq)
 
-#================================================find_max_profit==============================================================
+
+# ================================================find_max_profit==============================================================
 import random
+
 
 def find_max_profit():
 
@@ -352,7 +360,8 @@ def find_max_profit():
 
     print(f"Buy at {best_buy}, Sell at {best_sell}, Profit = {max_profit}")
 
-#============================================nested_list_reference=======================================================
+
+# ============================================nested_list_reference=======================================================
 def nested_list_reference():
     def print_grid_table(title, g):
         print("\n" + "=" * 95)
@@ -372,16 +381,14 @@ def nested_list_reference():
 
             print(f"{r:<8}{row_addr:<18}{c0:<22}{c1:<22}{c2:<22}")
 
-
     # Wrong Grid (shared rows)
-    ngrid = [[0]*3]*3
+    ngrid = [[0] * 3] * 3
 
     # Correct Grid (independent rows)
-    grid = [[0]*3 for _ in range(3)]
+    grid = [[0] * 3 for _ in range(3)]
 
     print_grid_table("Wrong Grid (Shared Rows)", ngrid)
     print_grid_table("Correct Grid (Independent Rows)", grid)
-
 
     # Modify one value to visualize difference
     ngrid[0][0] = 1
@@ -392,11 +399,12 @@ def nested_list_reference():
     print_grid_table("Wrong Grid After Change", ngrid)
     print_grid_table("Correct Grid After Change", grid)
 
-#====================================================array_memory_mapping====================================================
+
+# ====================================================array_memory_mapping====================================================
+
 
 def array_memory_mapping():
     import numpy as np
-
 
     # ==================================================
     # 1D ARRAY
@@ -431,15 +439,10 @@ def array_memory_mapping():
 
     print("=" * 90)
 
-
     # ==================================================
     # 2D ARRAY
     # ==================================================
-    grid = np.array([
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-    ], dtype=np.int64)
+    grid = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]], dtype=np.int64)
 
     print("\n" + "=" * 90)
     print("NumPy 2D Grid")
@@ -473,15 +476,17 @@ def array_memory_mapping():
 
     print("=" * 90)
 
-#====================================================merge_intervals======================================================
+
+# ====================================================merge_intervals======================================================
 
 import random
+
 
 def merge_intervals():
 
     # Static intervals (uncomment to test specific cases)
     # intervals = [[8, 16], [5, 19]]
-    
+
     # Dynamic random intervals
     # Generate random number of intervals (2 to 5)
     count = random.randint(2, 5)
@@ -491,7 +496,7 @@ def merge_intervals():
     # Create random intervals
     for _ in range(count):
         start = random.randint(1, 15)
-        end = random.randint(start, 20)   # end always >= start
+        end = random.randint(start, 20)  # end always >= start
         intervals.append([start, end])
 
     # Alternative one-liner for random intervals
@@ -514,7 +519,9 @@ def merge_intervals():
 
     print("Merged intervals:", result)
 
-#=====================================================sliding_window_sum==================================================
+
+# =====================================================sliding_window_sum==================================================
+
 
 def sliding_window_sum():
 
@@ -524,20 +531,20 @@ def sliding_window_sum():
     print(f"Generating random array of {count} elements...")
     arr = []
 
-
     for _ in range(count):
-        arr.append(random.randint(1,10))
+        arr.append(random.randint(1, 10))
     print(f"arr = {arr}")
     k = 3
 
     print(f"{'Window':<10}{'Values':<20}{'Sum':<10}")
-    print("-"*40)
+    print("-" * 40)
 
-    for i in range(len(arr)-k + 1):
-        window = arr[i:i+k]
+    for i in range(len(arr) - k + 1):
+        window = arr[i : i + k]
         print(f"{i+1:<10}{str(window):<20}{sum(window):<10}")
 
-#=========================================================================================================================
+
+# =========================================================================================================================
 
 
 if __name__ == "__main__":
@@ -551,4 +558,3 @@ if __name__ == "__main__":
     # merge_intervals()
     # sliding_window_sum()
     pass
-    
