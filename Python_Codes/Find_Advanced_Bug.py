@@ -544,7 +544,20 @@ def sliding_window_sum():
         print(f"{i+1:<10}{str(window):<20}{sum(window):<10}")
 
 
-# =========================================================================================================================
+# ==============================================remove even numbers===========================================================================
+
+def remove_even_numbers():
+
+    print("===== Remove Even Numbers from List =====")
+    
+    nums = [1,2,3,4,5,6,7,8]
+    print("Original list:", nums)
+
+    for n in nums[:]:          # loop over copy
+        if n % 2 == 0:
+            nums.remove(n)
+
+    print("List after removing even numbers:", nums)
 
 
 if __name__ == "__main__":
@@ -557,4 +570,5 @@ if __name__ == "__main__":
     # array_memory_mapping()
     # merge_intervals()
     # sliding_window_sum()
-    pass
+      remove_even_numbers()
+    
