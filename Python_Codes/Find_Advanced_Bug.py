@@ -544,7 +544,7 @@ def sliding_window_sum():
         print(f"{i+1:<10}{str(window):<20}{sum(window):<10}")
 
 
-# ==============================================remove even numbers===========================================================================
+# ==============================================remove even numbers=========================================================
 
 def remove_even_numbers():
 
@@ -559,6 +559,68 @@ def remove_even_numbers():
 
     print("List after removing even numbers:", nums)
 
+# ============================================find second largest=========================================================
+
+def find_second_largest():
+
+    print("===== Find Second Largest Number =====")
+
+    nums = [5, 9, 2, 11, 7]
+    print("Numbers:", nums)
+
+    largest = nums[0]
+    second = nums[0]
+
+    for n in nums:
+        if n > largest:
+            second = largest
+            largest = n
+
+    print(f"Second largest number: {second}")
+
+
+# ================================================reverse_words=========================================================
+
+def reverse_words():
+    
+    print("===== Reverse Words in a String =====")
+
+    text = "Hello World from Python"
+    print("Original text:", text)
+
+    words = text.split()
+
+    l = len(words)
+    for i in range(int(len(words)/2)):
+        temp = words[i]
+        words[i] = words[l-i-1]
+        words[l-i-1] = temp
+
+    print(f"Reversed text: {words}")
+
+
+# ================================================find largest word=========================================================
+
+def find_largest_word():
+
+    print("===== Find Largest Word in a String =====")
+
+    text = "I love programming language "
+    print("Original text:", text)
+
+    words = text.split()
+    largest = ""
+
+    for w in words:
+        if w > largest:
+            largest = w
+        else:
+            continue
+
+
+    print(f"Largest word: {largest}")
+
+# ========================================================================================================================
 
 if __name__ == "__main__":
     # login_system()
@@ -570,5 +632,8 @@ if __name__ == "__main__":
     # array_memory_mapping()
     # merge_intervals()
     # sliding_window_sum()
-      remove_even_numbers()
+    # remove_even_numbers()
+    # find_second_largest()
+    # reverse_words()
+      find_largest_word()
     
