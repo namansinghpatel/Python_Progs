@@ -1,4 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout
+from PyQt6.QtWidgets import QMessageBox
+from Backend.auth_service import create_user
 
 
 class CreateAccountPage(QWidget):
@@ -40,4 +42,13 @@ class CreateAccountPage(QWidget):
 
     def submit_clicked(self):
 
-        self.stack.setCurrentIndex(0)
+        username = self.username.text()
+        password = self.password.text()
+        re_password = self.repassword.text()
+        success, message = create_user(username, password, re_password)
+
+        if success:
+            QMessageBox.information(self, "Success", message)
+            self.stack.setCurrentIndex(0)
+        else:
+            QMessageBox.warning(self, "Validation Error", message)
