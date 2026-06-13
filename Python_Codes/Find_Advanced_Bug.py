@@ -620,7 +620,41 @@ def find_largest_word():
 
     print(f"Largest word: {largest}")
 
-# ========================================================================================================================
+# ==============================================remove duplicates=========================================================
+
+def remove_duplicates():
+
+    print("===== Remove Duplicates from String =====")
+
+    text = "banana"
+    result = ""
+    print("Original text:", text)
+
+    for ch in text:
+        if ch in result:
+            continue
+        else:
+            result += ch
+
+    print("Text after removing duplicates:", result)
+
+#===============================================find advanced bug=========================================================
+
+def remove_spaces():
+
+    print("===== Remove Spaces from String =====")
+    text = "I love Python"
+    result = ""
+    print("Original text:", text)
+
+    for ch in text:
+        if ch == " ":
+            continue
+        else:
+            result += ch
+
+    print("Text after removing spaces:", result)
+
 
 if __name__ == "__main__":
     # login_system()
@@ -635,5 +669,7 @@ if __name__ == "__main__":
     # remove_even_numbers()
     # find_second_largest()
     # reverse_words()
-      find_largest_word()
+    # find_largest_word()
+    # remove_duplicates()
+      remove_spaces()
     

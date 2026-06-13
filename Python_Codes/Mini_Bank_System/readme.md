@@ -1,201 +1,74 @@
-# 🏦 XYZ Bank - Mini Banking System (Python)
+# 🏦 XYZ Bank - Banking System (PyQt6)
 
-A beginner-friendly banking application developed in Python to learn programming fundamentals, Object-Oriented Programming (OOP), and GUI development using Tkinter.
+A desktop banking application developed in Python using PyQt6.
 
-The project provides both:
-
-* 💻 Console-Based Banking System
-* 🖥️ GUI-Based Banking System
-
-and demonstrates how business logic can be separated from the user interface, a common software engineering practice used in real-world applications.
-
----
-
-# 🎯 Project Goals
-
-This project was created to learn and practice:
+This project is being built in multiple phases to learn:
 
 * Python Programming
-* Functions and Modular Design
-* Classes and Objects
 * Object-Oriented Programming (OOP)
-* Lists and Data Management
-* User Input Validation
-* Error Handling
-* GUI Development using Tkinter
-* Project Structure and Code Organization
+* GUI Development with PyQt6
+* Authentication Systems
+* Database Integration
+* Software Architecture
+* Virtual Environments
+* Git & GitHub Workflows
 
 ---
 
-# ✨ Features
+# 🚀 Current Features
 
-## 💻 Console Version
+### GUI Screens
 
-### Account Management
+* Login Page
+* Create Account Page
+* Welcome Page
 
-* Create New Account
-* Username & PIN Validation
-* PIN Confirmation During Registration
-* Login Authentication
+### Navigation
 
-### Banking Operations
+* Login → Welcome Page
+* Create Account → Login Page
+* Logout → Login Page
 
-* Deposit Money
-* Withdraw Money
-* Check Current Balance
-* View Transaction History
-* Logout
-* Exit Program
+### Architecture
 
-### Transaction Tracking
-
-Every operation is recorded:
-
-```text
-Login
-Deposit: 500
-Withdraw: 200
-Deposit: 1000
-Logout
-```
+* Modular Folder Structure
+* GUI Layer
+* Backend Layer
+* Database Layer
 
 ---
 
-## 🖥️ GUI Version
-
-The graphical version provides a simple desktop interface using Tkinter.
-
-### GUI Features
-
-* Create Account
-* Login System
-* Deposit Money
-* Withdraw Money
-* Balance Display
-* Password Masking
-* Popup Notifications
-* User-Friendly Interface
-
----
-
-# 🧠 Concepts Demonstrated
-
-## Python Fundamentals
-
-* Variables
-* Data Types
-* Strings
-* Lists
-* Loops
-* Conditional Statements
-* Functions
-
-## Object-Oriented Programming
-
-* Classes
-* Objects
-* Constructors (`__init__`)
-* Methods
-* Instance Variables
-
-Example:
-
-```python
-account = BankAccount()
-```
-
-The account object stores:
-
-```text
-Username
-PIN
-Balance
-Transaction History
-```
-
----
-
-## GUI Programming
-
-Built using Tkinter:
-
-```python
-import tkinter as tk
-```
-
-Widgets used:
-
-* Labels
-* Buttons
-* Entry Boxes
-* Message Boxes
-
----
-
-## Software Design Principles
-
-The project separates:
-
-```text
-GUI Layer
-    ↓
-Business Logic Layer
-```
-
-### bank.py
-
-Responsible for:
-
-* Account Creation
-* Login Validation
-* Deposits
-* Withdrawals
-* Balance Management
-
-### gui.py
-
-Responsible for:
-
-* User Interface
-* User Input
-* Displaying Information
-
-This separation makes the application easier to maintain and extend.
-
----
-
-# 🗂️ Project Structure
+# 📂 Project Structure
 
 ```text
 XYZ_Bank/
 │
-├── bank.py
-│   ├── BankAccount Class
-│   ├── Console Application
-│   └── Banking Logic
+├── main.py
 │
-├── gui.py
-│   ├── Tkinter GUI
-│   ├── Buttons
-│   ├── Labels
-│   └── Event Handlers
+├── gui/
+│   ├── __init__.py
+│   ├── login_page.py
+│   ├── create_account_page.py
+│   └── welcome_page.py
 │
+├── backend/
+│   └── __init__.py
+│
+├── database/
+│   └── __init__.py
+│
+├── requirements.txt
 ├── README.md
-│
-└── screenshot.png (optional)
+└── .gitignore
 ```
 
 ---
 
-# 🖥️ Requirements
+# 🖥️ Prerequisites
 
-## Python Version
+* Python 3.10 or newer
 
-```text
-Python 3.10+
-```
-
-Verify:
+Verify installation:
 
 ```bash
 python --version
@@ -209,202 +82,260 @@ Python 3.12.4
 
 ---
 
-## Tkinter
+# 🔧 Setup Project
 
-Tkinter is usually included with Python.
-
-Verify installation:
-
-```bash
-python -m tkinter
-```
-
-A test window should appear.
-
----
-
-# 🚀 Installation
-
-## Clone Repository
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/namansinghpatel/Python_Progs.git
 ```
 
-Move into project directory:
+Move into the project folder:
 
 ```bash
-cd Python_Progs
+cd Python_Progs/Python_Codes/Mini_Bank_System
 ```
 
 ---
 
-# ▶️ Running the Application
+## 2. Create Virtual Environment
 
-## Run Console Version
+### Windows
 
 ```bash
-python bank.py
+python -m venv venv
 ```
 
----
-
-## Run GUI Version
+### Linux / macOS
 
 ```bash
-python gui.py
+python3 -m venv venv
 ```
 
----
-
-# 💻 Console Workflow Example
-
-## Create Account
+This creates:
 
 ```text
-===== XYZ BANK =====
-
-1. Create Account
-2. Login
-0. Exit
-
-Choose option: 1
-
-Enter Username: Prashant
-Enter PIN: 1234
-Confirm PIN: 1234
-
-Account created successfully.
+venv/
 ```
+
+which contains an isolated Python environment for the project.
 
 ---
 
-## Login
+## 3. Activate Virtual Environment
+
+### Windows CMD
+
+```bash
+venv\Scripts\activate
+```
+
+### Windows PowerShell
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+After activation, you should see:
 
 ```text
-Username: Prashant
-PIN: 1234
-
-Login successful.
+(venv)
 ```
 
----
+at the beginning of your terminal prompt.
 
-## Banking Menu
+Example:
 
 ```text
-1. Deposit
-2. Withdraw
-3. Check Balance
-4. Transaction History
-0. Logout
+(venv) C:\Projects\XYZ_Bank>
 ```
 
 ---
 
-## Deposit Example
+## 4. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Current dependencies:
 
 ```text
-Deposit Amount: 500
-
-Deposit successful.
-Balance = 500
+PyQt6>=6.8.0
 ```
 
 ---
 
-## Withdrawal Example
+## 5. Verify Installation
+
+```bash
+pip list
+```
+
+Expected output includes:
 
 ```text
-Withdraw Amount: 200
-
-Withdrawal successful.
-Balance = 300
+PyQt6
+PyQt6-Qt6
+PyQt6-sip
 ```
 
 ---
 
-# 📸 Screenshot
+# ▶️ Run Application
 
-Place a screenshot in the project folder:
+Start the application:
+
+```bash
+python main.py
+```
+
+---
+
+# 🖼️ Application Flow
 
 ```text
-screenshot.png
+Login Page
+     │
+     ├── Login
+     │
+     ▼
+Welcome Page
+
+Login Page
+     │
+     ├── Create Account
+     │
+     ▼
+Create Account Page
+     │
+     ▼
+Back To Login Page
 ```
-
-Then add:
-
-```markdown
-![XYZ Bank GUI](screenshot.png)
-```
-
-GitHub will automatically display the image.
 
 ---
 
-# 🔮 Future Enhancements
+# 🧠 Learning Objectives
 
-Planned improvements:
+This project demonstrates:
 
-## Banking Features
+## Python
 
-* Multiple User Accounts
-* Account Numbers
-* Money Transfer
-* Account Statements
-* Interest Calculation
+* Classes
+* Objects
+* Functions
+* Modules
+* Packages
+* Virtual Environments
 
-## Security Features
+## PyQt6
+
+* QStackedWidget
+* QPushButton
+* QLabel
+* QLineEdit
+* Event Handling
+
+## Software Design
+
+```text
+GUI Layer
+     ↓
+Backend Layer
+     ↓
+Database Layer
+```
+
+Each layer has a specific responsibility.
+
+---
+
+# 🔮 Future Roadmap
+
+## Phase 2
+
+* Input Validation
+* Password Validation
+* Error Dialogs
+
+## Phase 3
+
+* SQLite Database
+* User Registration
+* User Authentication
+
+## Phase 4
+
+* Dashboard
+* Account Details
+
+## Phase 5
+
+* Deposit Money
+* Withdraw Money
+* Transfer Money
+
+## Phase 6
+
+* Transaction History
+
+## Phase 7
 
 * Password Hashing
-* PIN Encryption
-* Login Attempt Limits
-* Account Locking
 
-## Data Storage
+## Phase 8
 
-* JSON Storage
-* CSV Export
-* Database Integration (SQLite)
-
-## GUI Improvements
-
-* Modern Theme
-* Dashboard
-* Transaction Tables
-* Charts and Analytics
+* Admin Dashboard
 
 ---
 
-# 🧪 Testing Ideas
+# 🛠️ Useful Development Commands
 
-Suggested test cases:
+## Update Requirements File
 
-### Login
+After installing new packages:
 
-* Correct Username & PIN
-* Incorrect Username
-* Incorrect PIN
+```bash
+pip freeze > requirements.txt
+```
 
-### Deposit
+---
 
-* Positive Amount
-* Zero Amount
-* Negative Amount
+## Deactivate Virtual Environment
 
-### Withdraw
+```bash
+deactivate
+```
 
-* Sufficient Balance
-* Insufficient Balance
-* Negative Amount
+---
+
+## Remove Virtual Environment
+
+Delete:
+
+```text
+venv/
+```
+
+folder.
+
+Then recreate it:
+
+```bash
+python -m venv venv
+```
 
 ---
 
 # 👨‍💻 Author
 
-## Naman Singh Patel
-
-Python Enthusiast | Learning Software Development
+Naman Singh Patel
 
 GitHub:
 https://github.com/namansinghpatel
@@ -413,10 +344,10 @@ https://github.com/namansinghpatel
 
 # 📜 License
 
-This project is created for educational and learning purposes.
+This project is created for learning and educational purposes.
 
-Feel free to modify, improve, and experiment with the code.
+Feel free to fork, modify, and experiment with the code.
 
 ---
 
-⭐ If you found this project helpful, consider giving it a star on GitHub.
+⭐ If you found this project useful, consider starring the repository.
