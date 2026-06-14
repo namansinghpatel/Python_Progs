@@ -1,104 +1,151 @@
-# 🏦 XYZ Bank - Banking System (PyQt6)
+# 🏦 Mini Bank System
 
-A desktop banking application developed in Python using PyQt6.
+A desktop banking application built with **Python**, **PyQt6**, **SQLite**, **bcrypt**, and **pytest**.
 
-This project is being built in multiple phases to learn:
+This project was created as a learning journey to understand how real-world applications are structured using:
 
-* Python Programming
-* Object-Oriented Programming (OOP)
-* GUI Development with PyQt6
-* Authentication Systems
-* Database Integration
+* GUI Development
+* Backend Services
+* Database Management
+* Authentication & Security
+* Unit Testing
 * Software Architecture
-* Virtual Environments
-* Git & GitHub Workflows
 
 ---
 
-# 🚀 Current Features
+# 🚀 Features
 
-### GUI Screens
+## 🔐 User Authentication
 
-* Login Page
-* Create Account Page
-* Welcome Page
+* Create New Account
+* Login with Username & Password
+* Username Validation
+* Password Validation
+* Duplicate Username Detection
+* Secure Password Storage using bcrypt
 
-### Navigation
+---
 
-* Login → Welcome Page
-* Create Account → Login Page
-* Logout → Login Page
+## 🛡️ Password Security
 
-### Architecture
+Passwords are **never stored in plain text**.
 
-* Modular Folder Structure
-* GUI Layer
-* Backend Layer
-* Database Layer
+Example:
+
+Instead of:
+
+```text
+password123
+```
+
+The database stores:
+
+```text
+$2b$12$Pc4Qd5YJ....
+```
+
+using bcrypt hashing.
+
+### Benefits
+
+* Passwords cannot be decrypted
+* Salted hashing protects against rainbow-table attacks
+* Industry-standard authentication approach
+
+---
+
+## 🖥️ GUI Features
+
+### Login Page
+
+* Username field
+* Password field
+* Show / Hide Password 👁
+* Login Button
+* Create New Account Button
+* Exit Button
+
+### Create Account Page
+
+* Username field
+* Password field
+* Re-enter Password field
+* Submit Button
+* Back Button
+
+### Welcome Page
+
+Displays:
+
+```text
+🏦 Welcome to XYZ Banking System
+```
+
+after successful login.
 
 ---
 
 # 📂 Project Structure
 
 ```text
-XYZ_Bank/
+Mini_Bank_System/
+
 │
 ├── main.py
 │
-├── gui/
+├── GUI/
 │   ├── __init__.py
 │   ├── login_page.py
 │   ├── create_account_page.py
 │   └── welcome_page.py
 │
-├── backend/
-│   └── __init__.py
+├── Backend/
+│   ├── __init__.py
+│   ├── auth_service.py
+│   ├── validators.py
+│   └── security.py
 │
-├── database/
-│   └── __init__.py
+├── Database/
+│   ├── __init__.py
+│   ├── sqlite_db.py
+│   └── xyz_bank.db
+│
+├── Tests/
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── test_auth_service.py
+│   ├── test_validators.py
+│   ├── test_sqlite_db.py
+│   └── test_gui.py
 │
 ├── requirements.txt
-├── README.md
-└── .gitignore
+│
+├── .gitignore
+│
+└── README.md
 ```
 
 ---
 
-# 🖥️ Prerequisites
+# ⚙️ Installation
 
-* Python 3.10 or newer
-
-Verify installation:
+## Clone Repository
 
 ```bash
-python --version
-```
-
-Example:
-
-```text
-Python 3.12.4
+git clone https://github.com/namansinghpatel/Python_Progs/tree/main/Python_Codes/Mini_Bank_System
 ```
 
 ---
 
-# 🔧 Setup Project
-
-## 1. Clone Repository
+## Navigate To Project
 
 ```bash
-git clone https://github.com/namansinghpatel/Python_Progs.git
-```
-
-Move into the project folder:
-
-```bash
-cd Python_Progs/Python_Codes/Mini_Bank_System
+cd Mini_Bank_System
 ```
 
 ---
 
-## 2. Create Virtual Environment
+## Create Virtual Environment
 
 ### Windows
 
@@ -106,91 +153,37 @@ cd Python_Progs/Python_Codes/Mini_Bank_System
 python -m venv venv
 ```
 
+Activate:
+
+```bash
+venv\Scripts\activate
+```
+
+---
+
 ### Linux / macOS
 
 ```bash
 python3 -m venv venv
 ```
 
-This creates:
-
-```text
-venv/
-```
-
-which contains an isolated Python environment for the project.
-
----
-
-## 3. Activate Virtual Environment
-
-### Windows CMD
-
-```bash
-venv\Scripts\activate
-```
-
-### Windows PowerShell
-
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-
-### Linux / macOS
+Activate:
 
 ```bash
 source venv/bin/activate
 ```
 
-After activation, you should see:
-
-```text
-(venv)
-```
-
-at the beginning of your terminal prompt.
-
-Example:
-
-```text
-(venv) C:\Projects\XYZ_Bank>
-```
-
 ---
 
-## 4. Install Dependencies
+# 📦 Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Current dependencies:
-
-```text
-PyQt6>=6.8.0
-```
-
----
-
-## 5. Verify Installation
-
-```bash
-pip list
-```
-
-Expected output includes:
-
-```text
-PyQt6
-PyQt6-Qt6
-PyQt6-sip
-```
-
 ---
 
 # ▶️ Run Application
-
-Start the application:
 
 ```bash
 python main.py
@@ -198,138 +191,253 @@ python main.py
 
 ---
 
-# 🖼️ Application Flow
+# 🗄️ Database
+
+This project uses SQLite.
+
+Database file:
 
 ```text
-Login Page
-     │
-     ├── Login
-     │
-     ▼
-Welcome Page
+Database/xyz_bank.db
+```
 
-Login Page
-     │
-     ├── Create Account
-     │
-     ▼
-Create Account Page
-     │
-     ▼
-Back To Login Page
+SQLite automatically creates:
+
+```text
+users
+```
+
+table during application startup.
+
+---
+
+# 👤 User Registration Flow
+
+```text
+Create Account
+      ↓
+Validate Username
+      ↓
+Validate Password
+      ↓
+Check Duplicate User
+      ↓
+Hash Password (bcrypt)
+      ↓
+Store In Database
+      ↓
+Success Message
 ```
 
 ---
 
-# 🧠 Learning Objectives
+# 🔑 Login Flow
+
+```text
+Login
+   ↓
+Validate Input
+   ↓
+Fetch User Hash
+   ↓
+Verify Password (bcrypt)
+   ↓
+Success / Failure
+```
+
+---
+
+# 🧪 Testing
+
+The project includes automated testing using:
+
+* pytest
+* pytest-qt
+* unittest.mock
+
+---
+
+## Run All Tests
+
+```bash
+pytest
+```
+
+---
+
+## Run Tests Verbosely
+
+```bash
+pytest -v
+```
+
+---
+
+## Run Specific Test File
+
+```bash
+pytest Tests/test_auth_service.py
+```
+
+---
+
+# ✅ Test Coverage
+
+### Validators
+
+Tests:
+
+* Valid Username
+* Empty Username
+* Username Length Validation
+* Password Match Validation
+* Password Length Validation
+* Login Validation
+
+---
+
+### Authentication Service
+
+Tests:
+
+* Create User Success
+* Duplicate User
+* Password Mismatch
+* Short Username
+* Short Password
+* Login Success
+* Login Failure
+* Unknown User
+* Empty Username
+* Empty Password
+* Database Success
+* Database Failure
+
+---
+
+### Database Layer
+
+Tests:
+
+* Insert User
+* User Exists
+* User Count
+* Multiple Users
+* Search Existing User
+* Search Non-Existing User
+
+---
+
+### GUI
+
+Tests:
+
+* Login Page Creation
+* Create Account Page Creation
+* Welcome Page Creation
+* Username Field Exists
+* Password Field Exists
+* Re-password Field Exists
+
+---
+
+# 🎭 Mocking Strategy
+
+Authentication tests use a mocked database instead of the real database.
+
+```text
+Test
+ ↓
+Mock Database
+ ↓
+No Real SQLite Access
+```
+
+Benefits:
+
+* Faster Tests
+* Isolated Tests
+* No Database Cleanup Required
+* Reliable Results
+
+---
+
+# 🔒 Security
+
+Implemented:
+
+✅ bcrypt Password Hashing
+
+Not Yet Implemented:
+
+⬜ Password Complexity Rules
+
+⬜ Account Lockout After Failed Attempts
+
+⬜ Session Management
+
+⬜ Role-Based Access Control
+
+⬜ Encryption Of Sensitive Banking Data
+
+---
+
+# 📚 Concepts Learned
 
 This project demonstrates:
 
-## Python
-
-* Classes
-* Objects
-* Functions
-* Modules
-* Packages
-* Virtual Environments
-
-## PyQt6
-
-* QStackedWidget
-* QPushButton
-* QLabel
-* QLineEdit
-* Event Handling
-
-## Software Design
-
-```text
-GUI Layer
-     ↓
-Backend Layer
-     ↓
-Database Layer
-```
-
-Each layer has a specific responsibility.
-
----
-
-# 🔮 Future Roadmap
-
-## Phase 2
-
-* Input Validation
-* Password Validation
-* Error Dialogs
-
-## Phase 3
-
-* SQLite Database
-* User Registration
-* User Authentication
-
-## Phase 4
-
-* Dashboard
-* Account Details
-
-## Phase 5
-
-* Deposit Money
-* Withdraw Money
-* Transfer Money
-
-## Phase 6
-
-* Transaction History
-
-## Phase 7
-
+* Object-Oriented Programming
+* GUI Development with PyQt6
+* SQLite Database Operations
+* Authentication Systems
 * Password Hashing
-
-## Phase 8
-
-* Admin Dashboard
-
----
-
-# 🛠️ Useful Development Commands
-
-## Update Requirements File
-
-After installing new packages:
-
-```bash
-pip freeze > requirements.txt
-```
+* Software Layering
+* Dependency Isolation
+* Mocking
+* Unit Testing
+* Integration Testing
+* Virtual Environments
+* Git Project Structure
 
 ---
 
-## Deactivate Virtual Environment
+# 🛠️ Future Enhancements
 
-```bash
-deactivate
-```
+## Banking Features
+
+* Deposit
+* Withdraw
+* Transfer Money
+* Transaction History
+* Account Balance
 
 ---
 
-## Remove Virtual Environment
+## Security Features
 
-Delete:
+* Password Complexity Rules
+* Forgot Password
+* OTP Verification
+* Account Lockout
+* Encryption of Sensitive Data
 
-```text
-venv/
-```
+---
 
-folder.
+## Database Features
 
-Then recreate it:
+* Transaction Table
+* Account Table
+* Foreign Key Relationships
+* Audit Logs
 
-```bash
-python -m venv venv
-```
+---
+
+## Testing Improvements
+
+* 80%+ Test Coverage
+* GUI Navigation Tests
+* End-to-End Tests
+* Performance Tests
 
 ---
 
@@ -337,17 +445,8 @@ python -m venv venv
 
 Naman Singh Patel
 
-GitHub:
-https://github.com/namansinghpatel
+Built as a learning project to understand how real-world banking systems are designed using Python.
 
 ---
 
-# 📜 License
-
-This project is created for learning and educational purposes.
-
-Feel free to fork, modify, and experiment with the code.
-
----
-
-⭐ If you found this project useful, consider starring the repository.
+⭐ If you found this project useful, consider starring the repository and following the project's future enhancements.
