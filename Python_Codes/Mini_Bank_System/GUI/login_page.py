@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QMessageBox
+from PyQt6.QtWidgets import (QWidget,QLabel,QPushButton,QLineEdit,QVBoxLayout,QMessageBox,QApplication)
 from PyQt6.QtCore import Qt
 from Backend.auth_service import login_user
 
@@ -41,11 +41,15 @@ class LoginPage(QWidget):
 
         create_btn.clicked.connect(self.create_account_clicked)
 
+        exit_btn = QPushButton("❌ Exit")
+        exit_btn.clicked.connect(self.exit_application)
+
         layout.addWidget(title)
         layout.addWidget(self.username)
         layout.addWidget(self.password)
         layout.addWidget(login_btn)
         layout.addWidget(create_btn)
+        layout.addWidget(exit_btn)
 
         self.setLayout(layout)
 
@@ -70,3 +74,7 @@ class LoginPage(QWidget):
     def create_account_clicked(self):
 
         self.stack.setCurrentIndex(1)
+
+    def exit_application(self):
+
+        QApplication.quit()

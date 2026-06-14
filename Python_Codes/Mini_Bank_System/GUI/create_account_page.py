@@ -40,15 +40,18 @@ class CreateAccountPage(QWidget):
         self.repassword.setEchoMode(QLineEdit.EchoMode.Password)
 
         submit_btn = QPushButton("Submit")
-
         submit_btn.clicked.connect(self.submit_clicked)
+
+        back_btn = QPushButton("⬅️ Back")
+
+        back_btn.clicked.connect(self.back_clicked)
 
         layout.addWidget(title)
         layout.addWidget(self.username)
         layout.addWidget(self.password)
         layout.addWidget(self.repassword)
         layout.addWidget(submit_btn)
-
+        layout.addWidget(back_btn)
         self.setLayout(layout)
 
     def submit_clicked(self):
@@ -63,3 +66,6 @@ class CreateAccountPage(QWidget):
             self.stack.setCurrentIndex(0)
         else:
             QMessageBox.warning(self, "Validation Error", message)
+
+    def back_clicked(self):
+        self.stack.setCurrentIndex(0)
