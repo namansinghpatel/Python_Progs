@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QHBoxLayout
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtCore import Qt
 from Backend.auth_service import create_user
@@ -31,12 +31,13 @@ class CreateAccountPage(QWidget):
 
         self.password = QLineEdit()
         self.password.setPlaceholderText("Password")
-
         self.password.setEchoMode(QLineEdit.EchoMode.Password)
+
+        self.show_password_btn = QPushButton("👁")
+        self.show_password_btn.clicked.connect(self.toggle_password)
 
         self.repassword = QLineEdit()
         self.repassword.setPlaceholderText("Re-enter Password")
-
         self.repassword.setEchoMode(QLineEdit.EchoMode.Password)
 
         submit_btn = QPushButton("Submit")
@@ -48,7 +49,10 @@ class CreateAccountPage(QWidget):
 
         layout.addWidget(title)
         layout.addWidget(self.username)
-        layout.addWidget(self.password)
+        password_layout = QHBoxLayout()
+        password_layout.addWidget(self.password)
+        password_layout.addWidget(self.show_password_btn)
+        layout.addLayout(password_layout)
         layout.addWidget(self.repassword)
         layout.addWidget(submit_btn)
         layout.addWidget(back_btn)
@@ -69,3 +73,12 @@ class CreateAccountPage(QWidget):
 
     def back_clicked(self):
         self.stack.setCurrentIndex(0)
+
+    def toggle_password(self):
+        if self.password.echoMode() == QLineEdit.EchoMode.Password:
+            self.password.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.show_password_btn.setText("🙈")
+
+        else:
+            self.password.setEchoMode(QLineEdit.EchoMode.Password)
+            self.show_password_btn.setText("👁")

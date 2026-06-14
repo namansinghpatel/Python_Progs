@@ -1,4 +1,13 @@
-from PyQt6.QtWidgets import (QWidget,QLabel,QPushButton,QLineEdit,QVBoxLayout,QMessageBox,QApplication)
+from PyQt6.QtWidgets import (
+    QWidget,
+    QLabel,
+    QPushButton,
+    QLineEdit,
+    QVBoxLayout,
+    QMessageBox,
+    QApplication,
+    QHBoxLayout,
+)
 from PyQt6.QtCore import Qt
 from Backend.auth_service import login_user
 
@@ -30,8 +39,10 @@ class LoginPage(QWidget):
 
         self.password = QLineEdit()
         self.password.setPlaceholderText("Password")
-
         self.password.setEchoMode(QLineEdit.EchoMode.Password)
+
+        self.show_password_btn = QPushButton("👁")
+        self.show_password_btn.clicked.connect(self.toggle_password)
 
         login_btn = QPushButton("Login")
 
@@ -46,7 +57,12 @@ class LoginPage(QWidget):
 
         layout.addWidget(title)
         layout.addWidget(self.username)
-        layout.addWidget(self.password)
+
+        password_layout = QHBoxLayout()
+        password_layout.addWidget(self.password)
+        password_layout.addWidget(self.show_password_btn)
+
+        layout.addLayout(password_layout)
         layout.addWidget(login_btn)
         layout.addWidget(create_btn)
         layout.addWidget(exit_btn)
@@ -78,3 +94,13 @@ class LoginPage(QWidget):
     def exit_application(self):
 
         QApplication.quit()
+
+    def toggle_password(self):
+
+        if self.password.echoMode() == QLineEdit.EchoMode.Password:
+            self.password.setEchoMode(QLineEdit.EchoMode.Normal)
+            self.show_password_btn.setText("🙈")
+
+        else:
+            self.password.setEchoMode(QLineEdit.EchoMode.Password)
+            self.show_password_btn.setText("👁")
