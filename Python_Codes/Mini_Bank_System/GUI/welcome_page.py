@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QVBoxLayout
+from PyQt6.QtCore import Qt
 
 
 class WelcomePage(QWidget):
@@ -11,7 +12,17 @@ class WelcomePage(QWidget):
 
         layout = QVBoxLayout()
 
-        title = QLabel("Welcome To XYZ Banking System")
+        title = QLabel("💰 Welcome To XYZ Banking System")
+        title.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+
+        title.setStyleSheet("""
+            QLabel {
+                font-size: 22px;
+                font-weight: bold;
+                color: #F9A825;
+                padding: 15px;
+            }
+        """)
 
         logout_btn = QPushButton("Logout")
 

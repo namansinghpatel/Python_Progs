@@ -14,12 +14,11 @@ class LoginPage(QWidget):
         layout = QVBoxLayout()
 
         title = QLabel("🏦 XYZ Banking System")
-
-        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
         title.setStyleSheet("""
             QLabel {
-                font-size: 32px;
+                font-size: 22px;
                 font-weight: bold;
                 color: #1565C0;
                 padding: 15px;

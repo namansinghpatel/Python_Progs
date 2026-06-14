@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout
 from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtCore import Qt
 from Backend.auth_service import create_user
 
 
@@ -13,7 +14,17 @@ class CreateAccountPage(QWidget):
 
         layout = QVBoxLayout()
 
-        title = QLabel("Create New Account")
+        title = QLabel("➕ CREATE NEW ACCOUNT")
+        title.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+
+        title.setStyleSheet("""
+            QLabel {
+                font-size: 22px;
+                font-weight: bold;
+                color: #C62828;
+                padding: 15px;
+            }
+        """)
 
         self.username = QLineEdit()
         self.username.setPlaceholderText("Username")
