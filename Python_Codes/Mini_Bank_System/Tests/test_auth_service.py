@@ -53,7 +53,11 @@ def test_create_user_success(mock_db):
     assert success
     assert message == "Account Created Successfully"
     mock_db.user_exists.assert_called_once_with("new_user")
-    mock_db.create_user.assert_called_once_with("new_user", "password123")
+    mock_db.create_user.assert_called_once()
+    username, hashed_password = mock_db.create_user.call_args.args
+    assert username == "new_user"
+    assert hashed_password != "password123"
+    assert hashed_password.startswith("$2b$")
 
 
 @patch("Backend.auth_service.sqlitedb")

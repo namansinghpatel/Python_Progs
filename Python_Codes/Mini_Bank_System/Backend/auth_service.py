@@ -1,6 +1,7 @@
 from Backend.validators import validate_username, validate_passwords, validate_login
 from Database.mongodb import mongodb
 from Database.sqlitedb import sqlitedb
+from Backend.security import hash_password
 
 
 def create_user(username, password, re_password):
@@ -34,7 +35,8 @@ def create_user(username, password, re_password):
     # Create User
     # -------------------
 
-    sqlitedb.create_user(username, password)
+    password_hash = hash_password(password)
+    sqlitedb.create_user(username, password_hash)
     return (True, "Account Created Successfully")
 
 

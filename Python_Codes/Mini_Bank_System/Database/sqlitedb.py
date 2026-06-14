@@ -1,4 +1,5 @@
 import sqlite3
+from Backend.security import verify_password
 
 
 class SQLiteDB:
@@ -46,21 +47,30 @@ class SQLiteDB:
         self.conn.commit()
         return True
 
+
     def authenticate_user(self, username, password):
+        stored_hash = sqlitedb.get_user_password_hash(username)
+        if stored_hash is None:
+            return (False, "Invalid Username or Password")
+        if not verify_password(password, stored_hash):
+            return (False, "Invalid Username or Password")
+        return (True, "Login Successful")
+
+
+    def get_user_password_hash(self, username):
 
         self.cursor.execute(
             """
-            SELECT *
+            SELECT password
             FROM users
             WHERE username = ?
-            AND password = ?
             """,
-            (username, password),
+            (username,),
         )
-
-        user = self.cursor.fetchone()
-
-        return user is not None
+        result = self.cursor.fetchone()
+        if result:
+            return result[0]
+        return None
 
 
 sqlitedb = SQLiteDB()
