@@ -21,3 +21,14 @@ def validate_passwords(password, re_password):
         return (False, "Password must contain at least 8 characters")
 
     return (True, "Password Valid")
+
+
+def validate_login(username, password):
+
+    if len(username.strip()) < 3:
+        return (False, "Username must contain at least 3 characters")
+    
+    if len(password) < 8:
+        return (False, "Password must contain at least 8 characters")
+
+    return (True, "Validation Passed")

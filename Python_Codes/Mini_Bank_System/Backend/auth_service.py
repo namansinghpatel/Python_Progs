@@ -1,4 +1,4 @@
-from Backend.validators import validate_username, validate_passwords
+from Backend.validators import validate_username, validate_passwords, validate_login
 from Database.mongodb import mongodb
 from Database.sqlitedb import sqlitedb
 
@@ -36,3 +36,18 @@ def create_user(username, password, re_password):
 
     sqlitedb.create_user(username, password)
     return (True, "Account Created Successfully")
+
+
+def login_user(username, password):
+
+    valid, message = validate_login(username, password)
+
+    if not valid:
+        return (False, message)
+
+    authenticated = sqlitedb.authenticate_user(username, password)
+
+    if not authenticated:
+        return (False, "Invalid Username or Password")
+
+    return (True, "Login Successful")

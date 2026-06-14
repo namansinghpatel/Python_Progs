@@ -46,5 +46,21 @@ class SQLiteDB:
         self.conn.commit()
         return True
 
+    def authenticate_user(self, username, password):
+
+        self.cursor.execute(
+            """
+            SELECT *
+            FROM users
+            WHERE username = ?
+            AND password = ?
+            """,
+            (username, password),
+        )
+
+        user = self.cursor.fetchone()
+
+        return user is not None
+
 
 sqlitedb = SQLiteDB()

@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QLabel, QPushButton, QLineEdit, QVBoxLayout, QMessageBox
 from PyQt6.QtCore import Qt
+from Backend.auth_service import login_user
 
 
 class LoginPage(QWidget):
@@ -51,7 +52,21 @@ class LoginPage(QWidget):
 
     def login_clicked(self):
 
-        self.stack.setCurrentIndex(2)
+        username = self.username.text()
+
+        password = self.password.text()
+
+        success, message = login_user(username, password)
+
+        if success:
+
+            QMessageBox.information(self, "Success", message)
+
+            self.stack.setCurrentIndex(2)
+
+        else:
+
+            QMessageBox.warning(self, "Login Failed", message)
 
     def create_account_clicked(self):
 
