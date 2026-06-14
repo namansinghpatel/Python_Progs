@@ -4,7 +4,7 @@ import sqlite3
 class SQLiteDB:
 
     def __init__(self):
-        self.conn = sqlite3.connect("xyz_bank.db")
+        self.conn = sqlite3.connect("Database/xyz_bank.db")
         self.cursor = self.conn.cursor()
         self.create_tables()
 

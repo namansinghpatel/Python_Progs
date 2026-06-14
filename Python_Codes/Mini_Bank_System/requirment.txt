@@ -1,2 +1,4 @@
 PyQt6>=6.8.0
 pymongo>=4.7.0
+pytest>=8.0.0
+pytest-qt>=4.4.0
