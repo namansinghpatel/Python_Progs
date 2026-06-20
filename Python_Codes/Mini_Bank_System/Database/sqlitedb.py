@@ -4,8 +4,8 @@ from Backend.security import verify_password
 
 class SQLiteDB:
 
-    def __init__(self):
-        self.conn = sqlite3.connect("Database/xyz_bank.db")
+    def __init__(self, db_path="Database/xyz_bank.db"):
+        self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         self.create_tables()
 

@@ -1,5 +1,5 @@
 def test_create_user(test_db):
-    cursor = test_db.cursor()
+    cursor = test_db.cursor
     cursor.execute(
         """
         INSERT INTO users
@@ -11,7 +11,7 @@ def test_create_user(test_db):
         """,
         ("user1", "password123"),
     )
-    test_db.commit()
+    test_db.conn.commit()
     cursor.execute(
         """
         SELECT *
@@ -25,7 +25,7 @@ def test_create_user(test_db):
 
 
 def test_user_count_empty(test_db):
-    cursor = test_db.cursor()
+    cursor = test_db.cursor
     cursor.execute("""
         SELECT COUNT(*)
         FROM users
@@ -35,7 +35,7 @@ def test_user_count_empty(test_db):
 
 
 def test_user_count_one(test_db):
-    cursor = test_db.cursor()
+    cursor = test_db.cursor
     cursor.execute(
         """
         INSERT INTO users
@@ -47,7 +47,7 @@ def test_user_count_one(test_db):
         """,
         ("user1", "password123"),
     )
-    test_db.commit()
+    test_db.conn.commit()
     cursor.execute("""
         SELECT COUNT(*)
         FROM users
@@ -57,7 +57,7 @@ def test_user_count_one(test_db):
 
 
 def test_multiple_users(test_db):
-    cursor = test_db.cursor()
+    cursor = test_db.cursor
     users = [("user1", "pass1pass"), ("user2", "pass2pass"), ("user3", "pass3pass")]
     cursor.executemany(
         """
@@ -70,7 +70,7 @@ def test_multiple_users(test_db):
         """,
         users,
     )
-    test_db.commit()
+    test_db.conn.commit()
     cursor.execute("""
         SELECT COUNT(*)
         FROM users
@@ -80,7 +80,7 @@ def test_multiple_users(test_db):
 
 
 def test_find_existing_user(test_db):
-    cursor = test_db.cursor()
+    cursor = test_db.cursor
     cursor.execute(
         """
         INSERT INTO users
@@ -92,7 +92,7 @@ def test_find_existing_user(test_db):
         """,
         ("prashant", "password123"),
     )
-    test_db.commit()
+    test_db.conn.commit()
     cursor.execute(
         """
         SELECT *
@@ -106,7 +106,7 @@ def test_find_existing_user(test_db):
 
 
 def test_find_non_existing_user(test_db):
-    cursor = test_db.cursor()
+    cursor = test_db.cursor
     cursor.execute(
         """
         SELECT *
