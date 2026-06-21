@@ -1,3 +1,6 @@
+from Backend.security import hash_password
+
+
 def test_create_user(test_db):
     cursor = test_db.cursor
     cursor.execute(
@@ -170,3 +173,49 @@ def test_get_user_password_hash(test_db):
     test_db.create_user("prashant", "hashed_password_123")
     stored_hash = test_db.get_user_password_hash("prashant")
     assert stored_hash == "hashed_password_123"
+
+
+def test_user_exists_true(test_db):
+    test_db.create_user("prashant", "password123")
+    assert test_db.user_exists("prashant") is True
+
+
+def test_user_exists_false(test_db):
+    assert test_db.user_exists("ghost") is False
+
+
+def test_get_user_password_hash_unknown_user(test_db):
+    stored_hash = test_db.get_user_password_hash("ghost")
+    assert stored_hash is None
+
+
+def test_get_failed_attempts_unknown_user(test_db):
+    attempts = test_db.get_failed_attempts("ghost")
+    assert attempts == 0
+
+
+def test_get_locked_until_unknown_user(test_db):
+    locked_until = test_db.get_locked_until("ghost")
+    assert locked_until is None
+
+
+def test_authenticate_user_success(test_db):
+    hashed_password = hash_password("password123")
+    test_db.create_user("prashant", hashed_password)
+    success, message = test_db.authenticate_user("prashant", "password123")
+    assert success
+    assert message == "Login Successful"
+
+
+def test_authenticate_user_unknown_user(test_db):
+    success, message = test_db.authenticate_user("ghost", "password123")
+    assert not success
+    assert message == "Invalid Username or Password"
+
+
+def test_authenticate_user_wrong_password(test_db):
+    hashed_password = hash_password("password123")
+    test_db.create_user("prashant", hashed_password)
+    success, message = test_db.authenticate_user("prashant", "wrongpassword")
+    assert not success
+    assert message == "Invalid Username or Password"

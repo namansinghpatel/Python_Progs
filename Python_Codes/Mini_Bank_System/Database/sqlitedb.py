@@ -50,7 +50,7 @@ class SQLiteDB:
         return True
 
     def authenticate_user(self, username, password):
-        stored_hash = sqlitedb.get_user_password_hash(username)
+        stored_hash = self.get_user_password_hash(username)
         if stored_hash is None:
             return (False, "Invalid Username or Password")
         if not verify_password(password, stored_hash):
